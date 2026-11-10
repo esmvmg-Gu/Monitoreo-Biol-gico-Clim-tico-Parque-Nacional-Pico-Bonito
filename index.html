@@ -264,7 +264,7 @@ figcaption{font-size:.78rem;color:var(--muted)}
 .stat .l{font-size:.72rem;color:var(--muted)}
 .obs{font-size:.82rem;color:var(--ink2);border-left:3px solid var(--warn);padding:4px 0 4px 10px;background:color-mix(in srgb,var(--warn) 8%,transparent);border-radius:0 6px 6px 0}
 .empty{color:var(--muted);font-size:.85rem}
-.plotlist{display:flex;flex-direction:column;gap:2px;max-height:360px;overflow:auto}
+.plotlist{display:flex;flex-direction:column;gap:2px;max-height:760px;overflow:auto}
 .plotlist button{display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:center;text-align:left;font:inherit;font-size:.84rem;background:transparent;border:0;border-radius:6px;padding:6px 8px;color:var(--ink);cursor:pointer}
 .plotlist button:hover{background:var(--sunk)}
 /* charts */
@@ -433,17 +433,10 @@ footer{font-size:.76rem;color:var(--muted);display:flex;flex-direction:column;ga
       </section>
       <section class="panel detail" id="detail" aria-live="polite"></section>
     </div>
-    <div class="grid-2">
-      <section class="panel">
-        <div class="ph"><h2 class="h-ico"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-mountain"/></svg>Cobertura del parque según ICF 2022</h2><span class="note">Hectáreas por clase dentro del límite del PNPB</span></div>
-        <div class="chart" id="c-icf"></div>
-      </section>
-      <section class="panel">
-        <div class="ph"><h2 class="h-ico"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-plot"/></svg>Parcelas frente a la capa ICF 2022</h2><span class="note" id="n-cmp"></span></div>
-        <span class="note">Tipo de bosque anotado en el Excel para cada parcela. Toque una fila para ver su ficha.</span>
-        <div class="tblwrap" style="max-height:none"><table id="cmp"></table></div>
-      </section>
-    </div>
+    <section class="panel">
+      <div class="ph"><h2 class="h-ico"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-mountain"/></svg>Cobertura del parque según ICF 2022</h2><span class="note">Hectáreas por clase dentro del límite del PNPB</span></div>
+      <div class="chart" id="c-icf"></div>
+    </section>
   </section>
 
   <section class="sec" id="vegetacion" aria-labelledby="h-vegetacion">
@@ -882,7 +875,7 @@ const isSel = p => S.plot===null || S.plot===p.key;
 function renderRich(){
   const P = filtered().slice().sort((a,b)=>b.rich-a.rich);
   if(!P.length) return emptyMsg('c-rich','Sin parcelas en la selección.');
-  const nar = NARROW('c-rich'); const rowH = 22, m = {t:4,r:nar?72:60,b:22,l:nar?104:170};
+  const nar = NARROW('c-rich'); const rowH = 22, m = {t:4,r:nar?74:78,b:22,l:nar?104:170};
   const {s,w,h} = mkSvg('c-rich', m.t+m.b+P.length*rowH);
   const x = d3.scaleLinear().domain([0,d3.max(D.plots,p=>p.rich)]).nice().range([m.l,w-m.r]);
   const y = d3.scaleBand().domain(P.map(p=>p.key)).range([m.t,h-m.b]).padding(.28);
@@ -1343,7 +1336,7 @@ function render(){
   document.querySelectorAll('#f-sector button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.sector));
   document.querySelectorAll('#f-dap button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dap));
   document.querySelectorAll('#f-eco .chip').forEach(b=>b.setAttribute('aria-pressed',S.ecos.has(b.dataset.k)));
-  renderKPIs(); renderMap(); renderDetail(); renderRich(); renderElev(); renderRemeasure(); renderDap(); renderIVI(); renderBirds(); renderCounts(); renderAccum(); renderPeriod(); renderTable(); renderInsights(); renderICF(); renderCmp(); updFiltBtn();
+  renderKPIs(); renderMap(); renderDetail(); renderRich(); renderElev(); renderRemeasure(); renderDap(); renderIVI(); renderBirds(); renderCounts(); renderAccum(); renderPeriod(); renderTable(); renderInsights(); renderICF(); updFiltBtn();
   if(MOTION && !S.animate){ const d=document.getElementById('detail'); d.animate && d.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:320,easing:'ease-out'}); }
   S.animate=false; hoverK=undefined; hoverPlot(null);
 }
