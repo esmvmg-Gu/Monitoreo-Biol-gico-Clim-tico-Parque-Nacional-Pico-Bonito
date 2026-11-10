@@ -440,7 +440,7 @@ footer{font-size:.76rem;color:var(--muted);display:flex;flex-direction:column;ga
       </section>
       <section class="panel">
         <div class="ph"><h2 class="h-ico"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-plot"/></svg>Parcelas frente a la capa ICF 2022</h2><span class="note" id="n-cmp"></span></div>
-        <span class="note">Tipo de bosque anotado en el Excel comparado con la clase del mapa ICF en el punto central de cada parcela.</span>
+        <span class="note">Tipo de bosque anotado en el Excel para cada parcela. Toque una fila para ver su ficha.</span>
         <div class="tblwrap" style="max-height:none"><table id="cmp"></table></div>
       </section>
     </div>
@@ -1250,8 +1250,8 @@ function renderCmp(){
   const P = filtered().slice().sort((a,b)=>(a.id||99)-(b.id||99));
   const st = P.map(p=>[p,cmpState(p)]);
   const ok = st.filter(([,c])=>c[0]==='ok').length, cmpN = st.filter(([,c])=>c[0]!=='na').length;
-  document.getElementById('n-cmp').textContent = `${ok} de ${cmpN} parcelas con cobertura coinciden`;
-  document.getElementById('cmp').innerHTML = `<thead><tr><th>Parcela</th><th>Excel (campo)</th><th>ICF 2022</th><th>Resultado</th></tr></thead><tbody>${st.map(([p,[k,t]])=>`<tr data-k="${p.key}" style="cursor:pointer"><td><b class="mono">${p.label}</b> ${esc(p.name)}</td><td>${esc(ECO[p.eco].s)}</td><td>${p.icf?`<span class="st"><i style="background:${ICF_COL[p.icf]};border:1px solid rgba(0,0,0,.25)"></i>${esc(p.icf)}</span>`:'<span class="note">—</span>'}</td><td>${k==='na'?`<span class="note">${t}</span>`:`<b class="cmp${k}" style="font-weight:600">${t}</b>`}</td></tr>`).join('')}</tbody>`;
+  document.getElementById('n-cmp').textContent = `${P.length} parcelas`;
+  document.getElementById('cmp').innerHTML = `<thead><tr><th>Parcela</th><th>Tipo de bosque (Excel, campo)</th></tr></thead><tbody>${st.map(([p,[k,t]])=>`<tr data-k="${p.key}" style="cursor:pointer"><td><b class="mono">${p.label}</b> ${esc(p.name)}</td><td><span class="st">${badge(ECO[p.eco],16)}${esc(ECO[p.eco].s)}</span></td></tr>`).join('')}</tbody>`;
   document.querySelectorAll('#cmp tbody tr').forEach(tr=>tr.onclick=()=>{ const k=tr.dataset.k; selectPlot(isNaN(+k)?k:+k); });
 }
 
